@@ -6,11 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: ca5fea2f8f321154fb23bbfb45e2ee5f
+  - enabled: 1
+    path: Assets/Scenes/SeleccionPais.unity
+    guid: 04eaf331fcb2be44598fec8fd4f3b62c
+  - enabled: 1
+    path: Assets/Scenes/Juego.unity
+    guid: 62319d68b02a1c44f904862dcb618627
+  - enabled: 1
+    path: Assets/Scenes/Ranking.unity
+    guid: c306fd87c5f90ce4eade11231c660087
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

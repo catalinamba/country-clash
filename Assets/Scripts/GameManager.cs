@@ -13,9 +13,14 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         if (instance == null)
+        {
             instance = this;
+            DontDestroyOnLoad(gameObject); //para que no se pierda la puntuacion al cambiar escena
+        }
         else
+        {
             Destroy(gameObject);
+        }
 
         scores["Guinea Ecuatorial"] = 0;
         scores["Francia"] = 0;
@@ -37,5 +42,11 @@ public class GameManager : MonoBehaviour
     void UpdateScoreText()
     {
         scoreText.text = "Guinea Ecuatorial:" + scores["Guinea Ecuatorial"] + " Francia: " + scores["Francia"] +"  Japon: " + scores["Japon"];
+    }
+
+    //metodo para obtener puntuaciones
+    public Dictionary<string, int> GetScores()
+    {
+        return scores;
     }
 }
