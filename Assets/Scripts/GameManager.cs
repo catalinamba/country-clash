@@ -15,36 +15,36 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject); //para que no se pierda la puntuacion al cambiar escena
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
 
-        scores["Guinea Ecuatorial"] = 0;
-        scores["Francia"] = 0;
-        scores["Japon"] = 0;
+        // Inicializamos solo Player y Bot
+        scores["Player"] = 0;
+        scores["Bot"] = 0;
 
         UpdateScoreText();
     }
 
-    public void AddScore(string country, int points)
+    public void AddScore(string key, int points)
     {
-        if (scores.ContainsKey(country))
+        if (scores.ContainsKey(key))
         {
-            scores[country] += points;
-            Debug.Log(country + " tiene " + scores[country] + " puntos");
+            scores[key] += points;
+            Debug.Log(key + " tiene " + scores[key] + " puntos");
             UpdateScoreText();
         }
     }
 
     void UpdateScoreText()
     {
-        scoreText.text = "Guinea Ecuatorial:" + scores["Guinea Ecuatorial"] + " Francia: " + scores["Francia"] +"  Japon: " + scores["Japon"];
+        scoreText.text = "Player: " + scores["Player"] + " | Bot: " + scores["Bot"];
     }
 
-    //metodo para obtener puntuaciones
+
     public Dictionary<string, int> GetScores()
     {
         return scores;
