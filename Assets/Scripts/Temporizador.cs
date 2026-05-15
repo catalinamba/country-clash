@@ -8,6 +8,7 @@ public class Temporizador : MonoBehaviour
     private float tiempoActual;
 
     public TextMeshProUGUI textoTiempo;
+    private bool gameEnded = false;
 
     void Start()
     {
@@ -16,11 +17,14 @@ public class Temporizador : MonoBehaviour
 
     void Update()
     {
+        if (gameEnded) return;
+
         tiempoActual -= Time.deltaTime;
 
         if (tiempoActual <= 0)
         {
             tiempoActual = 0;
+            gameEnded = true;
             FinDelJuego();
         }
 
@@ -35,6 +39,15 @@ public class Temporizador : MonoBehaviour
 
     void FinDelJuego()
     {
-        SceneManager.LoadScene("Ranking");
+        Debug.Log("FIN DEL JUEGO");
+
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.EndGame();
+        }
+        else
+        {
+            Debug.Log("GameManager NO EXISTE");
+        }
     }
 }

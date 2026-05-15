@@ -5,12 +5,19 @@ public class MenuManager : MonoBehaviour
 {
     public void Jugar()
     {
-        SceneManager.LoadScene("Juego");
+        SceneManager.LoadScene("SeleccionPais");
     }
 
     public void Salir()
     {
         Application.Quit();
-        Debug.Log("Salir del juego");
+        Debug.Log("Saliendo...");
     }
+
+    public void IrRanking()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Ranking");
+    }
+
 }

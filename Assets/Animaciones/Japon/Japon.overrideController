@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Japon
+  m_Controller: {fileID: 9100000, guid: 25edf61a443ebcc448627db76ec5e9b3, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 48be27cd2a244bd46a0032a16c48b339, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 51b6a40c410e2664290cd1de77d51c19, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 9e31736e1e2fe63429c69d8b46f5bd84, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 5d6bb6b747e292547be9bff40df7021c, type: 2}
