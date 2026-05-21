@@ -21,6 +21,9 @@ public class GameManager : MonoBehaviour
     public AudioClip endGameSound;
     private AudioSource audioSource;
 
+    [Header("API")]
+    public APIManager apiManager; // 👈 AÑADIDO
+
     private Dictionary<string, int> scores = new Dictionary<string, int>();
     private List<Dictionary<string, int>> historialPartidas = new List<Dictionary<string, int>>();
 
@@ -88,11 +91,9 @@ public class GameManager : MonoBehaviour
         int japon = scores["Bot_Japón"];
         int ge = scores["Bot_Guinea Ecuatorial"];
 
-        // sonido final general (opcional)
         if (audioSource != null && endGameSound != null)
             audioSource.PlayOneShot(endGameSound);
 
-        // ranking
         List<(string nombre, int puntos)> ranking = new List<(string, int)>
         {
             ("Player", playerScore),
@@ -103,7 +104,6 @@ public class GameManager : MonoBehaviour
 
         ranking.Sort((a, b) => b.puntos.CompareTo(a.puntos));
 
-        // TEXTO RANKING
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("PUESTOS\n");
 
@@ -115,7 +115,6 @@ public class GameManager : MonoBehaviour
         if (rankingText != null)
             rankingText.text = sb.ToString();
 
-        // GANADOR / PERDEDOR
         string winner = ranking[0].nombre;
 
         if (winnerText != null)
@@ -138,7 +137,28 @@ public class GameManager : MonoBehaviour
                 resultText.text = "HAS PERDIDO";
         }
 
-        GuardarPartida();
+        // =========================
+        // 🔥 ENVIAR A BASE DE DATOS
+        // =========================
+        EnviarPuntuacion();
+    }
+
+    void EnviarPuntuacion()
+    {
+        if (apiManager != null)
+        {
+            apiManager.SendScore(
+                "Player",
+                scores["Player"],
+                "Francia" // puedes cambiarlo por el país real si lo tienes guardado
+            );
+
+            Debug.Log("Score enviado a la API: " + scores["Player"]);
+        }
+        else
+        {
+            Debug.LogError("APIManager no asignado en GameManager");
+        }
     }
 
     // =========================
