@@ -65,3 +65,5 @@ public class PlayerController : MonoBehaviour
 //    }
 //}
 
+//pregunta porque en el insert jugador pone, nombre catalina, no entiendo, que se esta guardando?
+//dile que el objeto de guinea ecuatorial es una banana no un cacao
