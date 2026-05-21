@@ -5,9 +5,16 @@ public class ResultadosFinales : MonoBehaviour
 {
     public TextMeshProUGUI texto;
 
+    public APIManager apiManager;
+
+    public int scoreFinal;
+    public string playerName = "Jugador1";
+    public string country = "Francia";
+
     void Start()
     {
         MostrarHistorial();
+        EnviarPuntuacion();
     }
 
     void MostrarHistorial()
@@ -28,5 +35,18 @@ public class ResultadosFinales : MonoBehaviour
         }
 
         texto.text = t;
+    }
+
+    void EnviarPuntuacion()
+    {
+        if (apiManager != null)
+        {
+            apiManager.SendScore(playerName, scoreFinal, country);
+            Debug.Log("Enviando puntuación...");
+        }
+        else
+        {
+            Debug.LogError("APIManager no asignado");
+        }
     }
 }

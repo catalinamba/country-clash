@@ -65,5 +65,8 @@ public class PlayerController : MonoBehaviour
 //    }
 //}
 
-//pregunta porque en el insert jugador pone, nombre catalina, no entiendo, que se esta guardando?
-//dile que el objeto de guinea ecuatorial es una banana no un cacao
+//Mis endpoints en xampp local son:
+//Guardar puntuación
+//http://localhost/countryclash_api/saveScore.php
+//Ranking
+//http://localhost/countryclash_api/getRanking.php
