@@ -22,7 +22,10 @@ public class GameManager : MonoBehaviour
     private AudioSource audioSource;
 
     [Header("API")]
-    public APIManager apiManager; // 👈 AÑADIDO
+    public APIManager apiManager;
+
+    [Header("Player Data")]
+    public string selectedCountry;
 
     private Dictionary<string, int> scores = new Dictionary<string, int>();
     private List<Dictionary<string, int>> historialPartidas = new List<Dictionary<string, int>>();
@@ -51,11 +54,10 @@ public class GameManager : MonoBehaviour
     {
         if (endGamePanel != null)
             endGamePanel.SetActive(false);
+        selectedCountry = PlayerPrefs.GetString("pais", "Guinea Ecuatorial");
+
     }
 
-    // =========================
-    // SCORE SYSTEM
-    // =========================
     public void AddScore(string key, int points)
     {
         if (scores.ContainsKey(key))
@@ -76,9 +78,6 @@ public class GameManager : MonoBehaviour
             "Guinea Ecuatorial: " + scores["Bot_Guinea Ecuatorial"];
     }
 
-    // =========================
-    // END GAME
-    // =========================
     public void EndGame()
     {
         if (endGamePanel != null)
@@ -105,7 +104,7 @@ public class GameManager : MonoBehaviour
         ranking.Sort((a, b) => b.puntos.CompareTo(a.puntos));
 
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine("PUESTOS\n");
+        sb.AppendLine("Puestos\n");
 
         for (int i = 0; i < ranking.Count; i++)
         {
@@ -118,7 +117,7 @@ public class GameManager : MonoBehaviour
         string winner = ranking[0].nombre;
 
         if (winnerText != null)
-            winnerText.text = "GANADOR: " + winner;
+            winnerText.text = "Ganador: " + winner;
 
         if (playerScore == ranking[0].puntos)
         {
@@ -126,7 +125,7 @@ public class GameManager : MonoBehaviour
                 audioSource.PlayOneShot(winSound);
 
             if (resultText != null)
-                resultText.text = "HAS GANADO";
+                resultText.text = "HAS GANADO!";
         }
         else
         {
@@ -134,23 +133,22 @@ public class GameManager : MonoBehaviour
                 audioSource.PlayOneShot(loseSound);
 
             if (resultText != null)
-                resultText.text = "HAS PERDIDO";
+                resultText.text = "Has perdido";
         }
 
-        // =========================
-        // 🔥 ENVIAR A BASE DE DATOS
-        // =========================
         EnviarPuntuacion();
     }
 
     void EnviarPuntuacion()
     {
+        Debug.Log("PAÍS SELECCIONADO REAL: " + selectedCountry);
+
         if (apiManager != null)
         {
             apiManager.SendScore(
                 "Player",
                 scores["Player"],
-                "Francia" // puedes cambiarlo por el país real si lo tienes guardado
+                selectedCountry
             );
 
             Debug.Log("Score enviado a la API: " + scores["Player"]);
@@ -161,9 +159,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // =========================
-    // HISTORIAL
-    // =========================
     void GuardarPartida()
     {
         historialPartidas.Add(new Dictionary<string, int>(scores));
@@ -179,9 +174,6 @@ public class GameManager : MonoBehaviour
         return scores;
     }
 
-    // =========================
-    // RANKING SCENE
-    // =========================
     public void IrRanking()
     {
         Time.timeScale = 1f;

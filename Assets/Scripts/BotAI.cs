@@ -29,25 +29,19 @@ public class BotAI : MonoBehaviour
     {
         FindTarget();
 
-        // =========================
-        // MOVIMIENTO
-        // =========================
+        //movimiento
         if (target != null)
             MoveTo(target.position);
         else
             Wander();
 
-        // =========================
-        // ANIMACIÓN
-        // =========================
+        //animacion
         bool moving = Vector2.Distance(rb.position, lastPos) > 0.01f;
         anim.SetBool("isMoving", moving);
 
         lastPos = rb.position;
 
-        // =========================
-        // FLIP SPRITE
-        // =========================
+        // Flip sprite
         Vector2 dir = (target != null)
             ? (Vector2)target.position - rb.position
             : wanderTarget - rb.position;
@@ -67,18 +61,14 @@ public class BotAI : MonoBehaviour
         }
     }
 
-    // =========================
-    // MOVIMIENTO
-    // =========================
+    // movimiento
     void MoveTo(Vector2 pos)
     {
         Vector2 dir = (pos - rb.position).normalized;
         rb.linearVelocity = dir * speed;
     }
 
-    // =========================
-    // EXPLORAR
-    // =========================
+    // explorar
     void Wander()
     {
         wanderTimer -= Time.deltaTime;
@@ -101,9 +91,7 @@ public class BotAI : MonoBehaviour
         wanderTimer = Random.Range(2f, 5f);
     }
 
-    // =========================
-    // BUSCAR OBJETOS
-    // =========================
+    // buscar objetos
     void FindTarget()
     {
         GameObject[] all = GameObject.FindGameObjectsWithTag("Collectible");

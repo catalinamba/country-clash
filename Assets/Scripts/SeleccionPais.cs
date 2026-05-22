@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
@@ -12,15 +11,16 @@ public class SeleccionPais : MonoBehaviour
     {
         string paisSeleccionado = dropdownPais.options[dropdownPais.value].text;
 
+        if (string.IsNullOrEmpty(paisSeleccionado))
+        {
+            paisSeleccionado = "Guinea Ecuatorial";
+        }
+
         PlayerPrefs.SetString("pais", paisSeleccionado);
+        PlayerPrefs.Save();
 
         Debug.Log("País seleccionado: " + paisSeleccionado);
 
         SceneManager.LoadScene("Juego");
-
-        if (string.IsNullOrEmpty(paisSeleccionado))
-        {
-            paisSeleccionado = "Guinea Ecuatorial"; // valor por defecto
-        }
     }
 }

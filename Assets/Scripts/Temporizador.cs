@@ -39,7 +39,7 @@ public class Temporizador : MonoBehaviour
 
     void FinDelJuego()
     {
-        Debug.Log("FIN DEL JUEGO");
+        Debug.Log("Fin del juego");
 
         if (GameManager.instance != null)
         {
@@ -47,7 +47,7 @@ public class Temporizador : MonoBehaviour
         }
         else
         {
-            Debug.Log("GameManager NO EXISTE");
+            Debug.Log("GameManager no existe");
         }
     }
 }

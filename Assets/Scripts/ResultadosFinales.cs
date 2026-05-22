@@ -21,7 +21,7 @@ public class ResultadosFinales : MonoBehaviour
     {
         var historial = GameManager.instance.GetHistorial();
 
-        string t = "HISTORIAL DE PARTIDAS:\n\n";
+        string t = "Historial de partidas:\n\n";
 
         for (int i = 0; i < historial.Count; i++)
         {

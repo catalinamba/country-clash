@@ -21,7 +21,7 @@ public class Spawner : MonoBehaviour
     public AnimatorOverrideController botJapon;
     public AnimatorOverrideController botGuinea;
 
-    // 🔥 AÑADIDO: objetos
+  
     [Header("Objetos por país")]
     public int objetosPorPais = 5;
 
@@ -36,7 +36,7 @@ public class Spawner : MonoBehaviour
     {
         SpawnPlayer();
         SpawnBots();
-        SpawnObjetos(); // 🔥 AÑADIDO
+        SpawnObjetos(); 
     }
 
     void SpawnPlayer()
@@ -94,9 +94,7 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    // =========================
-    // 🔥 NUEVO: SPAWN OBJETOS
-    // =========================
+    //Spawn objetos
     void SpawnObjetos()
     {
         foreach (string pais in paises)

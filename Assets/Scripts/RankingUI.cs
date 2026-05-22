@@ -22,18 +22,16 @@ public class RankingUI : MonoBehaviour
     {
         Debug.Log("RAW JSON: " + json);
 
-        PlayerList players = JsonUtility.FromJson<PlayerList>(json);
+        RankingResponse players = JsonUtility.FromJson<RankingResponse>(json);
 
-        string texto = "🏆 RANKING ONLINE\n\n";
+        string texto = "RANKING ONLINE\n\n";
 
         for (int i = 0; i < players.players.Length; i++)
         {
             texto += (i + 1) + ". " +
-                     players.players[i].nombre + " - " +
-                     players.players[i].max_puntuacion + "\n";
+                     players.players[i].nombreJugador + " - " +
+                     players.players[i].puntuacion + "\n";
         }
-
-        Debug.Log("TEXTO FINAL:\n" + texto);
 
         textoRanking.text = texto;
     }
