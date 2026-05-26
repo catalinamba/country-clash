@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
@@ -19,7 +19,7 @@ public class SeleccionPais : MonoBehaviour
         PlayerPrefs.SetString("pais", paisSeleccionado);
         PlayerPrefs.Save();
 
-        Debug.Log("Pa�s seleccionado: " + paisSeleccionado);
+        Debug.Log("País seleccionado: " + paisSeleccionado);
 
         SceneManager.LoadScene("Juego");
     }

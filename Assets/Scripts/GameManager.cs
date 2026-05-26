@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        scores["Player"] = 0;
+        scores[PlayerDataLogin.playerName] = 0;
         scores["Bot_Francia"] = 0;
         scores["Bot_Japón"] = 0;
         scores["Bot_Guinea Ecuatorial"] = 0;
@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
         if (scoreText == null) return;
 
         scoreText.text =
-            "Player: " + scores["Player"] + "\n" +
+            "Player: " + scores[PlayerDataLogin.playerName] + "\n" +
             "Francia: " + scores["Bot_Francia"] + "\n" +
             "Japón: " + scores["Bot_Japón"] + "\n" +
             "Guinea Ecuatorial: " + scores["Bot_Guinea Ecuatorial"];
@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour
 
         Time.timeScale = 0f;
 
-        int playerScore = scores["Player"];
+        int playerScore = scores[PlayerDataLogin.playerName];
         int francia = scores["Bot_Francia"];
         int japon = scores["Bot_Japón"];
         int ge = scores["Bot_Guinea Ecuatorial"];
@@ -147,11 +147,11 @@ public class GameManager : MonoBehaviour
         {
             apiManager.SendScore(
                 "Player",
-                scores["Player"],
+                scores[PlayerDataLogin.playerName],
                 selectedCountry
             );
 
-            Debug.Log("Score enviado a la API: " + scores["Player"]);
+            Debug.Log("Score enviado a la API: " + scores[PlayerDataLogin.playerName]);
         }
         else
         {

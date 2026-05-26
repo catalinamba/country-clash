@@ -7,9 +7,9 @@ public class ResultadosFinales : MonoBehaviour
 
     public APIManager apiManager;
 
-    public int scoreFinal;
-    public string playerName = "Jugador1";
-    public string country = "Francia";
+    int scoreFinal;
+    string playerName;
+    string country;
 
     void Start()
     {
