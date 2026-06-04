@@ -22,15 +22,15 @@ public class RankingUI : MonoBehaviour
     {
         Debug.Log("RAW JSON: " + json);
 
-        RankingResponse players = JsonUtility.FromJson<RankingResponse>(json);
+        RankingResponse data = JsonUtility.FromJson<RankingResponse>(json);
 
         string texto = "RANKING ONLINE\n\n";
 
-        for (int i = 0; i < players.players.Length; i++)
+        for (int i = 0; i < data.players.Length; i++)
         {
             texto += (i + 1) + ". " +
-                     players.players[i].nombreJugador + " - " +
-                     players.players[i].puntuacion + "\n";
+                     data.players[i].nombreJugador + " - " +
+                     data.players[i].puntuacion + " pts\n";
         }
 
         textoRanking.text = texto;

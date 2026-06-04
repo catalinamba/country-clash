@@ -4,7 +4,7 @@ using System;
 public class RankingPlayerData
 {
     public string nombreJugador;
-    public string pais;
+
     public int puntuacion;
 }
 

@@ -22,6 +22,9 @@ public class BotAI : MonoBehaviour
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
 
+        rb.sleepMode = RigidbodySleepMode2D.NeverSleep;
+        rb.freezeRotation = true;
+
         PickNewWanderTarget();
     }
 
@@ -29,46 +32,42 @@ public class BotAI : MonoBehaviour
     {
         FindTarget();
 
-        //movimiento
         if (target != null)
+        {
             MoveTo(target.position);
+        }
         else
+        {
             Wander();
+        }
 
-        //animacion
-        bool moving = Vector2.Distance(rb.position, lastPos) > 0.01f;
-        anim.SetBool("isMoving", moving);
-
-        lastPos = rb.position;
-
-        // Flip sprite
-        Vector2 dir = (target != null)
-            ? (Vector2)target.position - rb.position
-            : wanderTarget - rb.position;
-
-        if (dir.x > 0.1f)
-            sr.flipX = false;
-        else if (dir.x < -0.1f)
-            sr.flipX = true;
+        UpdateAnimation();
     }
 
     void FixedUpdate()
     {
-        // Si no hay target ni wander, parar
-        if (target == null && Vector2.Distance(rb.position, wanderTarget) < 0.2f)
+        if (target == null)
         {
-            rb.linearVelocity = Vector2.zero;
+            if (Vector2.Distance(rb.position, wanderTarget) < 0.3f)
+            {
+                PickNewWanderTarget();
+            }
         }
     }
 
-    // movimiento
     void MoveTo(Vector2 pos)
     {
-        Vector2 dir = (pos - rb.position).normalized;
-        rb.linearVelocity = dir * speed;
+        Vector2 dir = pos - rb.position;
+
+        if (dir.magnitude < 0.2f)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
+        rb.linearVelocity = dir.normalized * speed;
     }
 
-    // explorar
     void Wander()
     {
         wanderTimer -= Time.deltaTime;
@@ -91,30 +90,41 @@ public class BotAI : MonoBehaviour
         wanderTimer = Random.Range(2f, 5f);
     }
 
-    // buscar objetos
     void FindTarget()
     {
-        GameObject[] all = GameObject.FindGameObjectsWithTag("Collectible");
-
         float minDist = Mathf.Infinity;
-        GameObject closest = null;
+        Collectible closest = null;
 
-        foreach (GameObject obj in all)
+        foreach (Collectible c in CollectibleManager.all)
         {
-            Collectible c = obj.GetComponent<Collectible>();
+            if (c == null) continue;
 
-            if (c != null && c.countryName == targetCountry)
+            if (c.countryName != targetCountry) continue;
+
+            float dist = Vector2.Distance(rb.position, c.transform.position);
+
+            if (dist < minDist)
             {
-                float dist = Vector2.Distance(rb.position, obj.transform.position);
-
-                if (dist < minDist)
-                {
-                    minDist = dist;
-                    closest = obj;
-                }
+                minDist = dist;
+                closest = c;
             }
         }
 
-        target = (closest != null) ? closest.transform : null;
+        target = closest != null ? closest.transform : null;
+    }
+
+    void UpdateAnimation()
+    {
+        bool moving = Vector2.Distance(rb.position, lastPos) > 0.01f;
+        anim.SetBool("isMoving", moving);
+
+        lastPos = rb.position;
+
+        Vector2 dir = rb.linearVelocity;
+
+        if (dir.x > 0.1f)
+            sr.flipX = false;
+        else if (dir.x < -0.1f)
+            sr.flipX = true;
     }
 }

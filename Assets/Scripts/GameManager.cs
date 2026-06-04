@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections.Generic;
-using TMPro;
-using UnityEngine.SceneManagement;
 using System.Text;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -32,30 +33,40 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+
         if (instance == null)
-        {
             instance = this;
-        }
         else
         {
             Destroy(gameObject);
             return;
         }
 
-        scores[PlayerDataLogin.playerName] = 0;
+        audioSource = GetComponent<AudioSource>();
+
+        string player = PlayerDataLogin.playerName;
+
+        if (!scores.ContainsKey(player))
+            scores.Add(player, 0);
+
         scores["Bot_Francia"] = 0;
         scores["Bot_Japón"] = 0;
         scores["Bot_Guinea Ecuatorial"] = 0;
 
-        audioSource = GetComponent<AudioSource>();
+
     }
 
     void Start()
     {
         if (endGamePanel != null)
             endGamePanel.SetActive(false);
+
         selectedCountry = PlayerPrefs.GetString("pais", "Guinea Ecuatorial");
 
+        if (scoreText != null)
+            scoreText.text =
+                "País: " + selectedCountry + "\n\n" +
+                "Player: 0\nFrancia: 0\nJapón: 0\nGuinea Ecuatorial: 0";
     }
 
     public void AddScore(string key, int points)
@@ -71,8 +82,12 @@ public class GameManager : MonoBehaviour
     {
         if (scoreText == null) return;
 
+        string player = PlayerDataLogin.playerName;
+
+        int playerScore = scores.ContainsKey(player) ? scores[player] : 0;
+
         scoreText.text =
-            "Player: " + scores[PlayerDataLogin.playerName] + "\n" +
+            "Player: " + playerScore + "\n" +
             "Francia: " + scores["Bot_Francia"] + "\n" +
             "Japón: " + scores["Bot_Japón"] + "\n" +
             "Guinea Ecuatorial: " + scores["Bot_Guinea Ecuatorial"];
@@ -95,7 +110,7 @@ public class GameManager : MonoBehaviour
 
         List<(string nombre, int puntos)> ranking = new List<(string, int)>
         {
-            ("Player", playerScore),
+            (PlayerDataLogin.playerName, playerScore),
             ("Francia", francia),
             ("Japón", japon),
             ("Guinea Ecuatorial", ge)
@@ -108,7 +123,7 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < ranking.Count; i++)
         {
-            sb.AppendLine((i + 1) + ". " + ranking[i].nombre);
+            sb.AppendLine((i + 1) + ". " + ranking[i].nombre + " - " + ranking[i].puntos + " pts");
         }
 
         if (rankingText != null)
@@ -143,15 +158,15 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("PAÍS SELECCIONADO REAL: " + selectedCountry);
 
-        if (apiManager != null)
-        {
-            apiManager.SendScore(
-                "Player",
-                scores[PlayerDataLogin.playerName],
-                selectedCountry
-            );
+            if (apiManager != null)
+            {
+                apiManager.SendScore(
+                    PlayerDataLogin.playerName,
+                    GameManager.instance.GetScores()[PlayerDataLogin.playerName],
+                    PlayerPrefs.GetString("pais", "Guinea Ecuatorial")//VALOR POR DEFECTO  GUINEA ECUATORIAL , EN CASO DE QUE NO HAYA ESCOGIDO PAIS
+                );
 
-            Debug.Log("Score enviado a la API: " + scores[PlayerDataLogin.playerName]);
+                Debug.Log("Score enviado a la API: " + scores[PlayerDataLogin.playerName]);
         }
         else
         {

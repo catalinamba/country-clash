@@ -6,6 +6,8 @@
 [Bb]uilds/
 [Ll]ogs/
 UserSettings/
+MemoryCaptures/
+
 *.csproj
 *.unityproj
 *.sln
@@ -13,10 +15,3 @@ UserSettings/
 *.tmp
 *.user
 *.userprefs
-*.pidb
-*.booproj
-*.svd
-*.pdb
-*.mdb
-*.opendb
-*.VC.db
